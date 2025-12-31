@@ -1,3 +1,7 @@
+Here's the updated README with those sections removed:
+​
+
+text
 # AI-Powered Minecraft Fabric Mod Generator 🎮🤖
 
 An intelligent system that generates balanced Minecraft food items with status effects using local LLMs. Upload a mod template, describe your item, and get a fully compiled Minecraft 1.21.1 Fabric mod in minutes.
@@ -97,25 +101,11 @@ mod_project/
 
 text
 
-## 💡 Key Innovation: Brute Force Parser
-
-The system uses a resilient regex-based parser that extracts game values even when the LLM returns malformed JSON or inconsistent formatting:
-
-nutrition = re.search(r'nutrition["\s:]+(\d+)', raw_text)
-saturation = re.search(r'saturation["\s:]+([\d.]+)', raw_text)
-effect = re.search(r'MobEffects\.([A-Z_]+)', raw_text)
-
-text
-
-Fallback defaults ensure the system never fails, even with unexpected AI responses.
-
 ## 🔒 License
 
 **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**
 
 - ✅ Use, modify, and share for non-commercial purposes
-- ❌ Commercial use prohibited without permission
-- 📧 For commercial licensing: [your-email@example.com]
 
 ## 🤝 Contributing
 
