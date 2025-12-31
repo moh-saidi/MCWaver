@@ -1,10 +1,12 @@
-Here's the updated README with those sections removed:
+Here's the updated README with your website link added:
 ​
 
 text
 # AI-Powered Minecraft Fabric Mod Generator 🎮🤖
 
 An intelligent system that generates balanced Minecraft food items with status effects using local LLMs. Upload a mod template, describe your item, and get a fully compiled Minecraft 1.21.1 Fabric mod in minutes.
+
+**🌐 [Try it online at modweaver.netlify.app](https://modweaver.netlify.app/)**
 
 ## ✨ Features
 
@@ -134,6 +136,7 @@ Created as part of an AI & Data Science engineering curriculum project, demonstr
 
 ## 🔗 Links
 
+- **[ModWeaver Web App](https://modweaver.netlify.app/)** - Try the online version
 - [Fabric Mod Development](https://fabricmc.net/wiki/tutorial:introduction)
 - [Ollama Documentation](https://ollama.ai/docs)
 - [Minecraft Modding Resources](https://minecraft.wiki/)
