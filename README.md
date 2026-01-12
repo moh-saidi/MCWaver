@@ -15,7 +15,7 @@ An AI code generation system that converts natural language descriptions into wo
 
 ### Prerequisites
 - Google Colab account (free tier works)
-- Minecraft Fabric mod template for 1.21.1 (zip file)
+- Minecraft Fabric mod template for 1.21.11 (zip file)
 - Item texture (16x16 PNG recommended)
 
 ### Usage
@@ -51,7 +51,7 @@ agent.finish()  # Downloads compiled mod
 - **Ollama** - Local LLM inference engine  
 - **Qwen 2.5 (0.5B)** - Lightweight language model optimized for speed
 - **Regex-based parsing** - Robust extraction from unstructured AI output
-- **Minecraft Fabric API** - Modding framework (1.21.1)
+- **Minecraft Fabric API** - Modding framework (1.21.11)
 - **Gradle** - Build automation and dependency management
 - **Java 21** - Mod compilation environment
 
@@ -123,7 +123,7 @@ This project is currently **not accepting contributions** as it's part of a pers
 - Colab's free T4 GPU sufficient for 0.5B parameter model
 - System operates fully offline after initial model download
 - Average generation time: 3-5 seconds per item
-- Compatible with Minecraft 1.21.1 Fabric mods
+- Compatible with Minecraft 1.21.11 Fabric mods
 - Architecture is generalizable to other code generation targets
 
 ## About
@@ -143,4 +143,4 @@ Built as part of an AI & Data Science engineering curriculum, demonstrating:
 
 ---
 
-**Target Domain:** Minecraft Fabric 1.21.1 | **Architecture:** Transferable to any code generation application
+**Target Domain:** Minecraft Fabric 1.21.11 | **Architecture:** Transferable to any code generation application
