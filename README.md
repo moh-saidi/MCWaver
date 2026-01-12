@@ -106,8 +106,6 @@ Built as part of an AI & Data Science engineering curriculum, demonstrating:
 - Error handling and reliability engineering
 
 ## Links
-
-- [Live Demo](https://modweaver.netlify.app/)
 - [Ollama Documentation](https://ollama.ai/docs)
 - [Fabric API Docs](https://fabricmc.net/wiki/tutorial:introduction)
 
