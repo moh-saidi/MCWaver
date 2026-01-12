@@ -1,7 +1,4 @@
-Here's the updated README with your website link added:
-​
 
-text
 # AI-Powered Minecraft Fabric Mod Generator 🎮🤖
 
 An intelligent system that generates balanced Minecraft food items with status effects using local LLMs. Upload a mod template, describe your item, and get a fully compiled Minecraft 1.21.1 Fabric mod in minutes.
