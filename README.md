@@ -1,207 +1,265 @@
 # AI-Powered Minecraft Mod Generator
 
-An AI code generation system that converts natural language descriptions into working Minecraft Fabric mods. Implements constraint-based validation, structured output parsing, and automated compilation to ensure reliable LLM code generation.
+> Transform natural language descriptions into working Minecraft mods using constraint-validated LLM code generation
 
-## System Architecture
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.21.11-green.svg)](https://fabricmc.net/)
+[![Fabric](https://img.shields.io/badge/Fabric-API-orange.svg)](https://fabricmc.net/)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![Ollama](https://img.shields.io/badge/Ollama-Qwen%202.5-red.svg)](https://ollama.ai/)
+
+An end-to-end AI code generation system that converts natural language into compiled Minecraft Fabric mods. Features constraint-based validation, structured output parsing, and automated compilation to ensure reliable LLM-generated code.
+
+## 🎯 Key Features
+
+- **⚡ Fast Generation** - Complete mods in 3-5 seconds using local LLM (Qwen 2.5 0.5B)
+- **🛡️ Constraint Validation** - Multi-stage validation prevents AI hallucination
+- **🔧 Zero Manual Work** - Fully automated from prompt to executable JAR
+- **🎮 Game-Balanced** - Automatic value clamping for nutrition, saturation, and effects
+- **🔄 Error Recovery** - Graceful fallbacks at every pipeline stage
+- **📦 Complete Output** - Generates source code, resources, recipes, and assets
+
+## 🏗️ System Architecture
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/3ea8bac1-b21c-4f52-8603-310ff12435ca" alt="System Architecture Diagram" width="600" />
+  <img src="https://github.com/user-attachments/assets/3ea8bac1-b21c-4f52-8603-310ff12435ca" alt="System Architecture Diagram" width="700" />
 </div>
+
+### Pipeline Overview
 
 The system implements a **5-layer pipeline** with comprehensive error recovery:
 
-1. **Input Layer** - Converts natural language to structured prompts with constraint enforcement
-2. **AI Processing Layer** - Ollama + Qwen 2.5 (0.5B) generates code in ~3 seconds
-3. **Validation Layer** - 3-stage validation (API whitelist, value clamping, ingredient filtering)
-4. **Code Generation Layer** - Parallel output of Java source, JSON resources, recipes, and assets
-5. **Build Layer** - Gradle compilation produces executable JAR files
+| Layer | Function | Error Handling |
+|-------|----------|----------------|
+| **Input** | Structured prompt generation with constraints | Format validation |
+| **AI Processing** | Ollama + Qwen 2.5 (0.5B) inference | Timeout & retry |
+| **Validation** | API whitelist, value clamping, ingredient filtering | Default fallbacks |
+| **Code Generation** | Parallel Java/JSON/recipe output | Syntax validation |
+| **Build** | Gradle compilation to JAR | Detailed error logs |
 
-**Error Recovery**: Automatic fallbacks at every stage prevent failures from invalid AI outputs.
-
-## Features
-
-- **Local LLM Integration** - Uses Ollama with Qwen 2.5 (0.5B) for fast inference (<3 seconds)
-- **Constraint Validation System** - Prevents hallucination with API whitelisting and regex validation
-- **Automatic Value Clamping** - Enforces domain-specific bounds (nutrition 1-12, saturation 0.1-1.2)
-- **Multi-Stage Error Recovery** - Fallback defaults when AI outputs invalid data
-- **Complete Build Pipeline** - Generates source code, resources, and compiles to executable JAR files
-- **Zero Manual Intervention** - End-to-end automation from prompt to working mod
-
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
-- Google Colab account (free tier works)
+
+- Google Colab account (free tier supported)
 - Minecraft Fabric mod template for 1.21.11 (zip file)
-- Item texture (16x16 PNG recommended)
+- Item texture image (16x16 PNG recommended)
 
-### Usage
+### Installation & Usage
 
-1. **Open the notebook** in Google Colab with GPU runtime (T4 recommended)
+**1. Open in Google Colab with GPU runtime** (T4 recommended)
 
-2. **Run the setup cells** to install Ollama and dependencies
+**2. Install dependencies and setup Ollama**
+```python
+# Run setup cells in notebook
+!pip install ollama
+!curl -fsSL https://ollama.com/install.sh | sh
+!ollama pull qwen2.5:0.5b
+```
 
-3. **Upload your mod template**
-\`\`\`python
+**3. Upload your mod template**
+```python
+from google.colab import files
 uploaded = files.upload()
 agent.setup_project(list(uploaded.keys()))
-\`\`\`
+```
 
-4. **Generate your mod**
-\`\`\`python
+**4. Generate your mod**
+```python
 description = "A golden apple that gives Speed and Jump Boost for 30 seconds"
 item_id = "super_apple"
 item_name = "Super Apple"
 
+# AI generates balanced game logic
 logic = agent.get_balanced_logic(description)
+
+# Creates complete mod structure
 agent.create_food(item_id, item_name, logic)
-\`\`\`
+```
 
-5. **Compile the mod** (produces working JAR file)
-\`\`\`python
-agent.finish()  # Downloads compiled mod
-\`\`\`
+**5. Compile and download**
+```python
+agent.finish()  # Produces working JAR file
+```
 
-## Technical Stack
+## 📊 Example Output
 
-- **Python** - Core automation and code generation
-- **Ollama** - Local LLM inference engine  
-- **Qwen 2.5 (0.5B)** - Lightweight language model optimized for speed
-- **Regex-based parsing** - Robust extraction from unstructured AI output
-- **Minecraft Fabric API** - Modding framework (1.21.11)
-- **Gradle** - Build automation and dependency management
-- **Java 21** - Mod compilation environment
+```
+🤖 Generating logic for: "A golden apple that gives Speed and Jump Boost for 30 seconds"
 
-## Architecture Deep Dive
-
-### Input Processing
-**Structured Prompting** enforces explicit format rules and validation requirements. The prompt builder injects constraint rules, vanilla effects lists, value bounds, and API endpoints directly into the LLM context.
-
-### AI Processing
-**Multi-Pattern Parsing** uses regex to extract structured data from AI responses:
-- \`nutrition=X\` - Food restoration value
-- \`effect_id=Y\` - Potion effect identifiers  
-- \`ingredients=[Z]\` - Crafting recipe components
-
-### Validation Pipeline
-
-#### Stage 1: API Whitelist Check
-Validates all effect IDs against 30+ known Minecraft effects (e.g., \`MobEffects.SPEED\`, \`MobEffects.REGENERATION\`). Unknown effects are filtered out.
-
-#### Stage 2: Value Clamping
-Enforces game balance constraints:
-- **Nutrition**: 1-12 (prevents overpowered food)
-- **Saturation**: 0.1-1.2 (realistic hunger mechanics)
-- **Duration**: Bounded to reasonable gameplay values
-
-#### Stage 3: Ingredient Filtering
-- Removes invalid item IDs
-- Deduplicates recipe ingredients
-- Ensures all items exist in vanilla Minecraft
-
-### Code Generation
-Parallel output produces **4 synchronized artifacts**:
-
-1. **ModItems.java** - Food properties, effect instances, registration logic
-2. **JSON Resources** - Item models, translations, asset definitions
-3. **Recipe Files** - Crafting recipes with validated ingredients
-4. **Asset Integration** - Texture placement and main class injection
-
-### Build & Error Recovery
-- **Success Path**: Gradle compiles to JAR → Downloads artifact
-- **Failure Path**: Logs detailed errors → Reports to user
-- **Timeout Handling**: 30-second limit with single retry
-- **Parse Failures**: Graceful degradation to default values
-
-## Reliability Features
-
-### Hallucination Prevention
-- Pre-validated API endpoint whitelist (30+ Minecraft effects)
-- Item ID validation and deduplication
-- Recipe ingredient filtering (removes invalid items)
-- Effect duration bounds enforcement
-
-### Error Recovery
-- Default fallbacks for all parsed values
-- Connection timeout handling (30s max)
-- Build failure detection with detailed logging
-- Graceful degradation when AI outputs invalid data
-
-## Generated Output
-
-The system creates complete mod structure:
-\`\`\`
-mod_project/
-├── src/main/java/[package]/
-│   ├── ModItems.java (AI-generated food items)
-│   └── [MainClass].java (auto-injected initialization)
-└── src/main/resources/
-    ├── assets/[mod_id]/
-    │   ├── textures/item/[item_id].png
-    │   ├── models/item/[item_id].json
-    │   ├── items/[item_id].json
-    │   └── lang/en_us.json
-    └── data/[mod_id]/recipe/[item_id].json
-\`\`\`
-
-## Example Output
-
-\`\`\`
 📊 Extracted Logic:
 {
   'nutrition': 6,
   'saturation': 0.8,
   'effects': [
-    {'effect_id': 'MobEffects.SPEED', 'duration': 600},
-    {'effect_id': 'MobEffects.JUMP_BOOST', 'duration': 600}
+    {'effect_id': 'MobEffects.SPEED', 'duration': 600, 'amplifier': 0},
+    {'effect_id': 'MobEffects.JUMP_BOOST', 'duration': 600, 'amplifier': 0}
   ],
   'recipe_ingredients': ['minecraft:golden_apple', 'minecraft:sugar']
 }
 
+✅ Validation passed: All effects recognized
+✅ Values clamped: nutrition=6, saturation=0.8
+✅ Recipe validated: 2 valid ingredients
+
+📝 Generated files:
+   - ModItems.java
+   - super_apple.json (model)
+   - super_apple.json (recipe)
+   - en_us.json (translations)
+
+🔨 Building mod...
 ✅ Build Successful!
-📦 Found Mod File: super_apple-1.0.0.jar
-\`\`\`
+📦 Mod file: super_apple-1.0.0.jar (compiled in 18s)
+```
 
-## Performance Metrics
+## 🔬 Technical Deep Dive
 
-| Metric | Value |
-|--------|-------|
-| **AI Response Time** | ~3 seconds |
-| **Total Generation Time** | 3-5 seconds per item |
-| **First Build Time** | 1-2 minutes (dependency download) |
-| **Subsequent Builds** | 15-30 seconds |
-| **Success Rate** | >95% with validation layer |
-| **Model Size** | 0.5B parameters |
-| **GPU Requirement** | T4 (Colab free tier) |
+### Input Processing: Structured Prompting
 
-## Contributing
+The prompt builder injects explicit constraints into the LLM context:
 
-This project is currently **not accepting contributions** as it's part of a personal portfolio. Feel free to fork for your own non-commercial use.
+- Whitelisted Minecraft effect IDs (30+ vanilla effects)
+- Value bounds (nutrition: 1-12, saturation: 0.1-1.2)
+- Valid crafting ingredients
+- API endpoint specifications
+- Output format requirements
 
-## Technical Notes
+### Validation Pipeline
 
-- First Gradle build downloads dependencies (~1-2 minutes)
-- Colab's free T4 GPU sufficient for 0.5B parameter model
-- System operates fully offline after initial model download
-- Average generation time: 3-5 seconds per item
-- Compatible with Minecraft 1.21.11 Fabric mods
-- Architecture is generalizable to other code generation targets
+**Stage 1: API Whitelist Check**
+```python
+VALID_EFFECTS = ['MobEffects.SPEED', 'MobEffects.REGENERATION', ...]
+filtered_effects = [e for e in ai_effects if e['effect_id'] in VALID_EFFECTS]
+```
 
-## About
+**Stage 2: Value Clamping**
+```python
+nutrition = clamp(ai_nutrition, min=1, max=12)
+saturation = clamp(ai_saturation, min=0.1, max=1.2)
+duration = clamp(ai_duration, min=20, max=6000)
+```
 
-Built as part of an AI & Data Science engineering curriculum, demonstrating:
-- Production LLM constraint systems
-- Automated code generation pipelines
-- Structured output parsing from language models
-- Build automation integration
-- Error handling and reliability engineering
+**Stage 3: Ingredient Filtering**
+```python
+valid_ingredients = [i for i in ai_ingredients if is_minecraft_item(i)]
+unique_ingredients = list(set(valid_ingredients))[:9]  # Max 9 slots
+```
 
-## Links
+### Code Generation: Parallel Artifact Creation
+
+The system generates **4 synchronized outputs**:
+
+```
+mod_project/
+├── src/main/java/[package]/
+│   ├── ModItems.java           # AI-generated food logic
+│   └── [MainClass].java        # Auto-injected initialization
+└── src/main/resources/
+    ├── assets/[mod_id]/
+    │   ├── textures/item/       # Uploaded texture
+    │   ├── models/item/         # Generated model JSON
+    │   ├── items/               # Item definition JSON
+    │   └── lang/en_us.json      # Translations
+    └── data/[mod_id]/recipe/    # Crafting recipe JSON
+```
+
+### Error Recovery Strategy
+
+```
+AI Response → Parse → Validate → Generate Code → Compile
+     ↓          ↓         ↓            ↓           ↓
+  Timeout   Defaults  Fallbacks    Retry      Error Log
+```
+
+Every stage includes fallback mechanisms:
+- **Parse failures** → Use default values
+- **Invalid effects** → Filter and continue
+- **Build errors** → Log detailed diagnostics
+- **Timeouts** → Single retry with extended timeout
+
+## 📈 Performance Metrics
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **AI Inference** | ~3 seconds | Qwen 2.5 (0.5B) on T4 GPU |
+| **Total Generation** | 3-5 seconds | Per item (excluding build) |
+| **First Build** | 1-2 minutes | Gradle dependency download |
+| **Subsequent Builds** | 15-30 seconds | Cached dependencies |
+| **Success Rate** | >95% | With validation enabled |
+| **Model Size** | 0.5B parameters | Optimized for speed |
+| **GPU Requirement** | T4 | Colab free tier sufficient |
+
+## 🛠️ Technical Stack
+
+**Core Technologies**
+- Python 3.10+ (automation & orchestration)
+- Ollama (local LLM inference)
+- Qwen 2.5 (0.5B) (lightweight language model)
+
+**Minecraft Modding**
+- Minecraft 1.21.11
+- Fabric API & Loader
+- Java 21 (mod compilation)
+- Gradle 8.x (build automation)
+
+**Validation & Parsing**
+- Regex-based structured output parsing
+- Domain-specific constraint validation
+- Multi-stage error recovery
+
+## 🎮 Supported Features
+
+**Generated Items**
+- Custom food items with configurable nutrition
+- Multiple potion effects per item
+- Customizable effect durations and amplifiers
+- Crafting recipes with vanilla ingredients
+
+**Validation Constraints**
+- 30+ whitelisted vanilla potion effects
+- Nutrition: 1-12 (half drumsticks to 6 drumsticks)
+- Saturation: 0.1-1.2 (realistic hunger mechanics)
+- Effect duration: 20-6000 ticks (1s to 5min)
+- Recipe ingredients: Max 9 unique items
+
+## 🧪 Architecture Highlights
+
+### Hallucination Prevention
+- **Pre-validated API whitelist** prevents non-existent effect references
+- **Item ID validation** ensures all ingredients exist in vanilla Minecraft
+- **Recipe deduplication** removes redundant ingredients
+- **Bounds enforcement** prevents impossible game values
+
+### Reliability Engineering
+- Graceful degradation with default fallbacks
+- Connection timeout handling (30s with retry)
+- Build failure detection with detailed diagnostics
+- Structured logging at every pipeline stage
+
+### Generalizability
+While built for Minecraft, the architecture is transferable to any code generation domain:
+- Constraint-based validation framework
+- Structured output parsing pipeline
+- Multi-stage error recovery
+- Automated build integration
+
+## 🤝 Contributing
+
+This project is part of a personal portfolio and is **not accepting contributions**. Feel free to fork for personal, non-commercial use.
+
+## 📚 Resources
 
 - [Fabric Mod Documentation](https://fabricmc.net/wiki/tutorial:introduction)
 - [Ollama Documentation](https://ollama.ai/docs)
 - [Minecraft Modding Wiki](https://minecraft.wiki/)
+- [Qwen 2.5 Model Card](https://huggingface.co/Qwen/Qwen2.5-0.5B)
+
+## 📄 License
+
+Educational/portfolio project. See repository for license details.
 
 ---
 
-**Target Domain:** Minecraft Fabric 1.21.11 | **Architecture:** Transferable to any code generation application
-EOF
+**Built to demonstrate:** Production LLM constraint systems • Automated code generation • Structured output parsing • Build automation integration • Reliability engineering
+
+**Domain:** Minecraft Fabric 1.21.11 | **Architecture:** Generalizable to any code generation target
