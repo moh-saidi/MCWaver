@@ -4,7 +4,8 @@ An AI code generation system that converts natural language descriptions into wo
 
 ## System Architecture
 
-![AI Code Generation System Architecture]<img width="800" height="1400" alt="mc (1)" src="https://github.com/user-attachments/assets/4eebc629-cdf7-48ef-ae4d-6dec28bf6632" />
+<img width="2194" height="3840" alt="mc (2)" src="https://github.com/user-attachments/assets/3ea8bac1-b21c-4f52-8603-310ff12435ca" />
+
 
 The system implements a **5-layer pipeline** with comprehensive error recovery:
 
