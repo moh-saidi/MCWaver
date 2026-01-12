@@ -1,6 +1,8 @@
-# AI-Powered Code Generation System
+# AI-Powered Minecraft Mod Generator
 
-A constraint-based LLM system that converts natural language descriptions into production-ready compiled code. Implements structured output parsing, API validation, and automated build pipelines to ensure reliable code generation.
+An AI code generation system that converts natural language descriptions into working Minecraft Fabric mods. Implements constraint-based validation, structured output parsing, and automated compilation to ensure reliable LLM code generation.
+
+**Live Demo: [modweaver.netlify.app](https://modweaver.netlify.app/)**
 
 ## Features
 
@@ -8,15 +10,15 @@ A constraint-based LLM system that converts natural language descriptions into p
 - **Constraint Validation System** - Prevents hallucination with API whitelisting and regex validation
 - **Automatic Value Clamping** - Enforces domain-specific bounds (nutrition 1-12, saturation 0.1-1.2)
 - **Multi-Stage Error Recovery** - Fallback defaults when AI outputs invalid data
-- **Complete Build Pipeline** - Generates source code, resources, and compiles to executable artifacts
-- **Zero Manual Intervention** - End-to-end automation from prompt to compiled output
+- **Complete Build Pipeline** - Generates source code, resources, and compiles to executable JAR files
+- **Zero Manual Intervention** - End-to-end automation from prompt to working mod
 
 ## Quick Start
 
 ### Prerequisites
 - Google Colab account (free tier works)
-- Project template (zip file)
-- Any required assets (textures, configs, etc.)
+- Minecraft Fabric mod template for 1.21.1 (zip file)
+- Item texture (16x16 PNG recommended)
 
 ### Usage
 
@@ -24,25 +26,25 @@ A constraint-based LLM system that converts natural language descriptions into p
 
 2. **Run the setup cells** to install Ollama and dependencies
 
-3. **Upload your template**
+3. **Upload your mod template**
 ```python
 uploaded = files.upload()
 agent.setup_project(list(uploaded.keys()))
 ```
 
-4. **Generate code**
+4. **Generate your mod**
 ```python
-description = "A healing item that restores health over time"
-item_id = "healing_potion"
-item_name = "Healing Potion"
+description = "A golden apple that gives Speed and Jump Boost for 30 seconds"
+item_id = "super_apple"
+item_name = "Super Apple"
 
 logic = agent.get_balanced_logic(description)
 agent.create_food(item_id, item_name, logic)
 ```
 
-5. **Compile** (produces working executable)
+5. **Compile the mod** (produces working JAR file)
 ```python
-agent.finish()  # Downloads compiled artifact
+agent.finish()  # Downloads compiled mod
 ```
 
 ## Technical Stack
@@ -51,31 +53,67 @@ agent.finish()  # Downloads compiled artifact
 - **Ollama** - Local LLM inference engine  
 - **Qwen 2.5 (0.5B)** - Lightweight language model optimized for speed
 - **Regex-based parsing** - Robust extraction from unstructured AI output
+- **Minecraft Fabric API** - Modding framework (1.21.1)
 - **Gradle** - Build automation and dependency management
-- **Java 21** - Target compilation environment
+- **Java 21** - Mod compilation environment
 
 ## System Architecture
 
 1. **Structured Prompting** - Constrains LLM output with explicit format rules and validation requirements
 2. **Multi-Pattern Parsing** - Regex extraction handles variations in AI response format
-3. **Validation Layer** - Checks all generated identifiers against whitelist of 30+ valid API endpoints
-4. **Value Clamping** - Enforces numeric bounds to prevent unrealistic outputs
-5. **Code Injection** - Inserts generated logic into template structure with proper imports
-6. **Automated Compilation** - Gradle build produces tested, executable artifacts
+3. **Validation Layer** - Checks all generated identifiers against whitelist of 30+ valid Minecraft effects
+4. **Value Clamping** - Enforces numeric bounds to prevent unrealistic game balance
+5. **Code Injection** - Inserts generated logic into mod template with proper Mojang mappings
+6. **Automated Compilation** - Gradle build produces tested, working JAR files
 
 ## Reliability Features
 
 ### Hallucination Prevention
-- Pre-validated API endpoint whitelist
-- Effect ID validation (30+ vanilla options)
-- Ingredient deduplication and filtering
-- Invalid item rejection system
+- Pre-validated API endpoint whitelist (30+ Minecraft effects)
+- Item ID validation and deduplication
+- Recipe ingredient filtering (removes invalid items)
+- Effect duration bounds enforcement
 
 ### Error Recovery
 - Default fallbacks for all parsed values
 - Connection timeout handling (30s max)
 - Build failure detection with detailed logging
-- Graceful degradation when AI fails
+- Graceful degradation when AI outputs invalid data
+
+## Generated Output
+
+The system creates complete mod structure:
+```
+mod_project/
+├── src/main/java/[package]/
+│   ├── ModItems.java (AI-generated food items)
+│   └── [MainClass].java (auto-injected initialization)
+└── src/main/resources/
+    ├── assets/[mod_id]/
+    │   ├── textures/item/[item_id].png
+    │   ├── models/item/[item_id].json
+    │   ├── items/[item_id].json
+    │   └── lang/en_us.json
+    └── data/[mod_id]/recipe/[item_id].json
+```
+
+## Example Output
+
+```
+📊 Extracted Logic:
+{
+  'nutrition': 6,
+  'saturation': 0.8,
+  'effects': [
+    {'effect_id': 'MobEffects.SPEED', 'duration': 600},
+    {'effect_id': 'MobEffects.JUMP_BOOST', 'duration': 600}
+  ],
+  'recipe_ingredients': ['minecraft:golden_apple', 'minecraft:sugar']
+}
+
+✅ Build Successful!
+📦 Found Mod File: super_apple-1.0.0.jar
+```
 
 ## License
 
@@ -90,11 +128,12 @@ This project is currently **not accepting contributions** as it's part of a pers
 
 ## Technical Notes
 
-- First build downloads dependencies (~1-2 minutes)
+- First Gradle build downloads dependencies (~1-2 minutes)
 - Colab's free T4 GPU sufficient for 0.5B parameter model
-- System operates fully offline after initial setup
+- System operates fully offline after initial model download
 - Average generation time: 3-5 seconds per item
-- Target domain: Fabric API (Minecraft 1.21.1) - architecture is domain-agnostic
+- Compatible with Minecraft 1.21.1 Fabric mods
+- Architecture is generalizable to other code generation targets
 
 ## About
 
@@ -106,9 +145,12 @@ Built as part of an AI & Data Science engineering curriculum, demonstrating:
 - Error handling and reliability engineering
 
 ## Links
+
+- [Live Demo](https://modweaver.netlify.app/)
+- [Fabric Mod Documentation](https://fabricmc.net/wiki/tutorial:introduction)
 - [Ollama Documentation](https://ollama.ai/docs)
-- [Fabric API Docs](https://fabricmc.net/wiki/tutorial:introduction)
+- [Minecraft Modding Wiki](https://minecraft.wiki/)
 
 ---
 
-**Domain application:** Minecraft Fabric mods | **Architecture:** Generalizable to any code generation target
+**Target Domain:** Minecraft Fabric 1.21.1 | **Architecture:** Transferable to any code generation application
