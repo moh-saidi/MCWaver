@@ -2,8 +2,6 @@
 
 An AI code generation system that converts natural language descriptions into working Minecraft Fabric mods. Implements constraint-based validation, structured output parsing, and automated compilation to ensure reliable LLM code generation.
 
-**Live Demo: [modweaver.netlify.app](https://modweaver.netlify.app/)**
-
 ## Features
 
 - **Local LLM Integration** - Uses Ollama with Qwen 2.5 (0.5B) for fast inference (<3 seconds)
@@ -115,13 +113,6 @@ mod_project/
 📦 Found Mod File: super_apple-1.0.0.jar
 ```
 
-## License
-
-**Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**
-
-- Use, modify, and share for non-commercial purposes
-- Commercial use prohibited without permission
-
 ## Contributing
 
 This project is currently **not accepting contributions** as it's part of a personal portfolio. Feel free to fork for your own non-commercial use.
@@ -146,7 +137,6 @@ Built as part of an AI & Data Science engineering curriculum, demonstrating:
 
 ## Links
 
-- [Live Demo](https://modweaver.netlify.app/)
 - [Fabric Mod Documentation](https://fabricmc.net/wiki/tutorial:introduction)
 - [Ollama Documentation](https://ollama.ai/docs)
 - [Minecraft Modding Wiki](https://minecraft.wiki/)
