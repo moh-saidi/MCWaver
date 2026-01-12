@@ -9,16 +9,16 @@
 
 An end-to-end AI code generation system that converts natural language into compiled Minecraft Fabric mods. Features constraint-based validation, structured output parsing, and automated compilation to ensure reliable LLM-generated code.
 
-## 🎯 Key Features
+## Key Features
 
-- **⚡ Fast Generation** - Complete mods in 3-5 seconds using local LLM (Qwen 2.5 0.5B)
-- **🛡️ Constraint Validation** - Multi-stage validation prevents AI hallucination
-- **🔧 Zero Manual Work** - Fully automated from prompt to executable JAR
-- **🎮 Game-Balanced** - Automatic value clamping for nutrition, saturation, and effects
-- **🔄 Error Recovery** - Graceful fallbacks at every pipeline stage
-- **📦 Complete Output** - Generates source code, resources, recipes, and assets
+- **Fast Generation** - Complete mods in 3-5 seconds using local LLM (Qwen 2.5 0.5B)
+- **Constraint Validation** - Multi-stage validation prevents AI hallucination
+- **Zero Manual Work** - Fully automated from prompt to executable JAR
+- **Game-Balanced** - Automatic value clamping for nutrition, saturation, and effects
+- **Error Recovery** - Graceful fallbacks at every pipeline stage
+- **Complete Output** - Generates source code, resources, recipes, and assets
 
-## 🏗️ System Architecture
+## System Architecture
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/3ea8bac1-b21c-4f52-8603-310ff12435ca" alt="System Architecture Diagram" width="700" />
@@ -36,7 +36,7 @@ The system implements a **5-layer pipeline** with comprehensive error recovery:
 | **Code Generation** | Parallel Java/JSON/recipe output | Syntax validation |
 | **Build** | Gradle compilation to JAR | Detailed error logs |
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -81,12 +81,12 @@ agent.create_food(item_id, item_name, logic)
 agent.finish()  # Produces working JAR file
 ```
 
-## 📊 Example Output
+## Example Output
 
 ```
-🤖 Generating logic for: "A golden apple that gives Speed and Jump Boost for 30 seconds"
+Generating logic for: "A golden apple that gives Speed and Jump Boost for 30 seconds"
 
-📊 Extracted Logic:
+Extracted Logic:
 {
   'nutrition': 6,
   'saturation': 0.8,
@@ -97,22 +97,22 @@ agent.finish()  # Produces working JAR file
   'recipe_ingredients': ['minecraft:golden_apple', 'minecraft:sugar']
 }
 
-✅ Validation passed: All effects recognized
-✅ Values clamped: nutrition=6, saturation=0.8
-✅ Recipe validated: 2 valid ingredients
+Validation passed: All effects recognized
+Values clamped: nutrition=6, saturation=0.8
+Recipe validated: 2 valid ingredients
 
-📝 Generated files:
+Generated files:
    - ModItems.java
    - super_apple.json (model)
    - super_apple.json (recipe)
    - en_us.json (translations)
 
-🔨 Building mod...
-✅ Build Successful!
-📦 Mod file: super_apple-1.0.0.jar (compiled in 18s)
+Building mod...
+Build Successful!
+Mod file: super_apple-1.0.0.jar (compiled in 18s)
 ```
 
-## 🔬 Technical Deep Dive
+## Technical Deep Dive
 
 ### Input Processing: Structured Prompting
 
@@ -177,7 +177,7 @@ Every stage includes fallback mechanisms:
 - **Build errors** → Log detailed diagnostics
 - **Timeouts** → Single retry with extended timeout
 
-## 📈 Performance Metrics
+## Performance Metrics
 
 | Metric | Value | Notes |
 |--------|-------|-------|
@@ -189,7 +189,7 @@ Every stage includes fallback mechanisms:
 | **Model Size** | 0.5B parameters | Optimized for speed |
 | **GPU Requirement** | T4 | Colab free tier sufficient |
 
-## 🛠️ Technical Stack
+## Technical Stack
 
 **Core Technologies**
 - Python 3.10+ (automation & orchestration)
@@ -207,7 +207,7 @@ Every stage includes fallback mechanisms:
 - Domain-specific constraint validation
 - Multi-stage error recovery
 
-## 🎮 Supported Features
+## Supported Features
 
 **Generated Items**
 - Custom food items with configurable nutrition
@@ -222,7 +222,7 @@ Every stage includes fallback mechanisms:
 - Effect duration: 20-6000 ticks (1s to 5min)
 - Recipe ingredients: Max 9 unique items
 
-## 🧪 Architecture Highlights
+## Architecture Highlights
 
 ### Hallucination Prevention
 - **Pre-validated API whitelist** prevents non-existent effect references
@@ -243,18 +243,18 @@ While built for Minecraft, the architecture is transferable to any code generati
 - Multi-stage error recovery
 - Automated build integration
 
-## 🤝 Contributing
+## Contributing
 
 This project is part of a personal portfolio and is **not accepting contributions**. Feel free to fork for personal, non-commercial use.
 
-## 📚 Resources
+## Resources
 
 - [Fabric Mod Documentation](https://fabricmc.net/wiki/tutorial:introduction)
 - [Ollama Documentation](https://ollama.ai/docs)
 - [Minecraft Modding Wiki](https://minecraft.wiki/)
 - [Qwen 2.5 Model Card](https://huggingface.co/Qwen/Qwen2.5-0.5B)
 
-## 📄 License
+## License
 
 Educational/portfolio project. See repository for license details.
 
