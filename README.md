@@ -1,4 +1,4 @@
-# AI-Powered Minecraft Mod Generator
+# AI-Powered Mod Generator
 
 > Transform natural language descriptions into working Minecraft mods using constraint-validated LLM code generation
 
